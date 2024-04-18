@@ -1,2 +1,2 @@
 # tremorsense
-Victim seeking sensor for earthquake rescue operations
+victim seeking sensor for earthquake rescue operations
