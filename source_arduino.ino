@@ -369,18 +369,17 @@ void setup()
 //------------------------------------------------------------------------
 
 
-void loop()
-{
-  unsigned long previousMillis = 0;
-  const long interval = 2000; // interval at which to execute the step signal operation (milliseconds)
-  int state = 0; // initial state
 
-  void setup() {
-  // put your setup code here, to run once:
+unsigned long previousMillis = 0;
+const long interval = 2000; // interval at which to execute the step signal operation (milliseconds)
+int state = 0; // initial state
+
+void setup() {
+// put your setup code here, to run once:
   Serial.begin(9600);
-  }
+}
 
-  oid loop() {
+void loop() {
   // put your main code here, to run repeatedly:
   unsigned long currentMillis = millis();
 
