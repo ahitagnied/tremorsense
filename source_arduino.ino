@@ -370,37 +370,17 @@ void setup()
 
 
 
-unsigned long previousMillis = 0;
-const long interval = 2000; // interval at which to execute the step signal operation (milliseconds)
-int state = 0; // initial state
-
-void setup() {
-// put your setup code here, to run once:
-  Serial.begin(9600);
-}
 
 void loop() {
-  // put your main code here, to run repeatedly:
-  unsigned long currentMillis = millis();
+  const long interval = 2000; // interval at which to execute the step signal operation (milliseconds)
 
-  if (currentMillis - previousMillis >= interval) {
-    // save the last time a step signal was detected
-    previousMillis = currentMillis;
-
-    // update the state every 2 seconds
-    if (state == 0) {
-      state = 1;
-    } else {
-      state = 0;
-    }
   // Wait for step wheel signal
-  while (state == 0)
+  unsigned long current_time = millis();
+  unsigned long start_time = current_time;
+  while (current_time - start_time < interval)
   {
     masurare_afis_bat();
-  }
-  while (state == 1)
-  {
-    masurare_afis_bat();
+    current_time = millis();
   }
   // If screen is full, delete and start again
   if (((pas % nr_cel_rez_oriz) == 0) && (pas != 0))
