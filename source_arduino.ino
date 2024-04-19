@@ -14,7 +14,6 @@
 #define buton_sus 7
 #define buton_OK 6
 #define buton_jos 5
-#define senzor_pas 3
 #define SDC_CS 53                     //SD card control pin
 #include <Wire.h>
 #include <arduinoFFT.h>
@@ -75,7 +74,6 @@ void setup()
   pinMode(buton_sus, INPUT);
   pinMode(buton_OK, INPUT);
   pinMode(buton_jos, INPUT);
-  pinMode(senzor_pas, INPUT);
 
   tft.drawString("<c> Mirel Paun 2020", xpos, ypos, GFXFF);
   delay(1000);
@@ -369,14 +367,39 @@ void setup()
 }
 
 //------------------------------------------------------------------------
+
+
 void loop()
 {
+  unsigned long previousMillis = 0;
+  const long interval = 2000; // interval at which to execute the step signal operation (milliseconds)
+  int state = 0; // initial state
+
+  void setup() {
+  // put your setup code here, to run once:
+  Serial.begin(9600);
+  }
+
+  oid loop() {
+  // put your main code here, to run repeatedly:
+  unsigned long currentMillis = millis();
+
+  if (currentMillis - previousMillis >= interval) {
+    // save the last time a step signal was detected
+    previousMillis = currentMillis;
+
+    // update the state every 2 seconds
+    if (state == 0) {
+      state = 1;
+    } else {
+      state = 0;
+    }
   // Wait for step wheel signal
-  while (digitalRead(senzor_pas) == 0)
+  while (state == 0)
   {
     masurare_afis_bat();
   }
-  while (digitalRead(senzor_pas) == 1)
+  while (state == 1)
   {
     masurare_afis_bat();
   }
