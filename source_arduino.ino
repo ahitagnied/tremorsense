@@ -14,7 +14,6 @@
 #define buton_sus 7
 #define buton_OK 6
 #define buton_jos 5
-#define senzor_pas 3
 #define SDC_CS 53                     //SD card control pin
 #include <Wire.h>
 #include <arduinoFFT.h>
@@ -75,7 +74,6 @@ void setup()
   pinMode(buton_sus, INPUT);
   pinMode(buton_OK, INPUT);
   pinMode(buton_jos, INPUT);
-  pinMode(senzor_pas, INPUT);
 
   tft.drawString("<c> Mirel Paun 2020", xpos, ypos, GFXFF);
   delay(1000);
@@ -369,16 +367,20 @@ void setup()
 }
 
 //------------------------------------------------------------------------
-void loop()
-{
+
+
+
+
+void loop() {
+  const long interval = 2000; // interval at which to execute the step signal operation (milliseconds)
+
   // Wait for step wheel signal
-  while (digitalRead(senzor_pas) == 0)
+  unsigned long current_time = millis();
+  unsigned long start_time = current_time;
+  while (current_time - start_time < interval)
   {
     masurare_afis_bat();
-  }
-  while (digitalRead(senzor_pas) == 1)
-  {
-    masurare_afis_bat();
+    current_time = millis();
   }
   // If screen is full, delete and start again
   if (((pas % nr_cel_rez_oriz) == 0) && (pas != 0))
